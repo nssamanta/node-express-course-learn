@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Furniture Store</title>
+  </head>
+  <body>
+    <h1>Furniture Store API Test</h1>
+    <button id="btn">Load Products</button>
+    <div id="result"></div>
+    <script>
+      const btn = document.querySelector("#btn");
+      const result = document.querySelector("#result");
+
+      btn.addEventListener("click", async () => {
+        try {
+          const response = await fetch("/api/v1/products");
+          const data = await response.json();
+          const productsHTML = data
+            .map((product) => {
+              return `      
+              <h3>${product.name}</h3>
+              <p>Price: $${product.price}</p>
+            </div>
+          `;
+            })
+            .join("");
+
+          result.innerHTML = productsHTML;
+        } catch (error) {
+          console.log(error);
+          result.innerHTML = "<h4>There was an error fetching the data.</h4>";
+        }
+      });
+    </script>
+  </body>
+</html>
